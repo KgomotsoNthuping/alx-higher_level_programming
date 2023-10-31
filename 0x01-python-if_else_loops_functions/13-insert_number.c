@@ -1,42 +1,33 @@
 #include "lists.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 /**
  * insert_node - insert number
- * @head: data type
+ * @head: list
  * @number: int
- * Return: 0 if there is no cycle or 1 if there is a cycle
+ * Return: 0 if there is no cycle or 1
  */
 
-struct listint {
-    int data;
-    struct listint *next;
-};
-typedef struct listint listint_t;
+listint_t *insert_node(listint_t **head, int number)
+{
+	listint_t *node = *head, *new;
 
-listint_t *insert_node(listint_t **head, int number) {
-    listint_t *new_node = (listint_t *)malloc(sizeof(listint_t));
-    if (new_node == NULL) {
-        return NULL;
-    }
+	new = malloc(sizeof(listint_t));
+	if (new == NULL)
+		return (NULL);
+	new->n = number;
 
-    new_node->data = number;
-    new_node->next = NULL;
+	if (node == NULL || node->n >= number)
+	{
+		new->next = node;
+		*head = new;
+		return (new);
+	}
 
-    if (*head == NULL || number < (*head)->data) {
-        new_node->next = *head;
-        *head = new_node;
-        return new_node;
-    }
+	while (node && node->next && node->next->n < number)
+		node = node->next;
 
-    listint_t *current = *head;
-    while (current->next != NULL && current->next->data < number) {
-        current = current->next;
-    }
+	new->next = node->next;
+	node->next = new;
 
-    new_node->next = current->next;
-    current->next = new_node;
-
-    return new_node;
+	return (new);
 }
