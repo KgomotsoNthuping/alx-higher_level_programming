@@ -1,8 +1,4 @@
 #!/usr/bin/python3
-output = ""
-
-for letter_lc in range(97, 123):
-    if chr(letter_lc) not in ('q', 'e'):
-        output += "{}".format(chr(letter_lc))
-
-print(output, end="")
+for m in range(97, 123):
+    if (m != 101 and m != 113):
+        print("{}".format(chr(m)), end='')
