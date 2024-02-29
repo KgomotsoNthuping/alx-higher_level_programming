@@ -1,40 +1,29 @@
 #!/usr/bin/python3
-"""find peak in a list"""
-
-
-def peak_recur(a, Min, Max):
-    """Binary Search """
-
-    if not a:
-        return None
-
-    half = int((Max + Min) / 2)
-
-    if (half - 1) < Min and (half + 1) > Max:
-        return a[half]
-
-    if (half - 1) < Min and (half + 1) <= Max and a[half + 1] <= a[half]:
-        return a[half]
-
-    if (half + 1) > Max and (half - 1) >= Min and a[half - 1] <= a[half]:
-        return a[half]
-
-    if (half - 1) >= Min and a[half - 1] <= a[half] and (half + 1) <= Max and a[half + 1] <= a[half]:
-        return a[half]
-
-    if a[half + 1] > a[half]:
-        return peak_recur(a, half + 1, Max)
-
-    return peak_recur(a, 0, half - 1)
+"""6-peak module"""
 
 
 def find_peak(list_of_integers):
-    """ find peak in a list"""
+    """Finds a peak
+    list_of_integers - Given values
+    Return: Peak
+    """
 
-    if not list_of_integers:
+    length = len(list_of_integers)
+    mid = length
+    i = length // 2
+
+    if i == 0:
         return None
 
-    Min = 0
-    Max = len(list_of_integers) - 1
-
-    return peak_recur(list_of_integers, Min, Max)
+    while True:
+        mid = mid // 2
+        if i > 0 and list_of_integers[i] < list_of_integers[i - 1]:
+            if mid // 2 == 0:
+                mid = 2
+            i = i - mid//2
+        elif i + 1 < length and list_of_integers[i] < list_of_integers[i + 1]:
+            if mid // 2 == 0:
+                mid = 2
+            i = i + mid//2
+        else:
+            return list_of_integers[i]
