@@ -1,15 +1,13 @@
 #!/usr/bin/python3
-"""Displays the body of the response"""
-
-from sys import argv
+"""
+Python Script that takes in a URL, sends a request to the URL
+& displays the body of the response
+"""
 import requests
+from sys import argv
 
-if __name__ = '__main__':
-    url = argv[1]
-
-    try:
-        u = requests.get(url)
-        u.raise_for_status()
-        print(u.text)
-    except:
-        print('Error code: {}'.format(u.status_code))
+if __name__ == '__main__':
+    r = requests.get(argv[1])
+    status = r.status_code
+    print(r.text) if status < 400 else print(
+        "Error code: {}".format(r.status_code))
