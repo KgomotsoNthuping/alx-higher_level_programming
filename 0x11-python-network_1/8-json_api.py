@@ -1,18 +1,23 @@
 #!/usr/bin/python3
-"""Python script that takes in a letter and sends a POST request"""
+# script that takes in a letter and sends a POST request to /search_user
 import requests
 from sys import argv
+# packages to handle the request
 
-if __name__ == '__main__':
-    q = argv[1] if len(argv) == 2 else ""
-    url = 'http://0.0.0.0:5000/search_user'
-    r = requests.post(url, data={'q': q})
+
+if __name__ == "__main__":
+    url = "http://0.0.0.0:5000/search_user"
+    if len(argv) > 1:
+        q = argv[1]
+    else:
+        q = ""
+
     try:
-        r_dict = r.json()
-        id, name = r_dict.get('id'), r_dict.get('name')
-        if len(r_dict) == 0 or not id or not name:
-            print("No result")
+        r = requests.post(url, data={'q': q}).json()
+
+        if 'id' in r and 'name' in r:
+            print("[{}] {}".format(r['id'], r['name']))
         else:
-            print("[{}] {}".format(r_dict.get('id'), r_dict.get('name')))
-    except Exception:
+            print("No result")
+    except ValueError:
         print("Not a valid JSON")
